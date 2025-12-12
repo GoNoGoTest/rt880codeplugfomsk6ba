@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Optional
@@ -145,9 +144,6 @@ class Channel:
     tx_tone: str
 
 
-TONE_PATTERN = re.compile(r"[0-9]+(?:[.,][0-9]+)?")
-
-
 def _split_multi(value: Optional[str]) -> List[str]:
     if not value:
         return []
@@ -167,18 +163,21 @@ def _to_float(value: Optional[str]) -> Optional[float]:
         return None
 
 
-def parse_tone(access: str) -> str:
-    """Extract the first numeric tone from the access field.
+def parse_ctcss(access: str) -> str:
+    """Return the first numeric CTCSS tone in Hz, or blank if none is found."""
 
-    If nothing numeric is found, return "None".
-    """
-    match = TONE_PATTERN.search(access.replace(" ", ""))
-    if not match:
-        return "None"
-    tone = match.group(0).replace(",", ".")
-    if tone.endswith("Hz"):
-        return tone
-    return f"{tone}Hz" if tone else "None"
+    candidates = _split_multi(access.replace(" ", "")) if access else []
+    if not candidates:
+        candidates = access.replace(" ", "").replace("/", " ").split() if access else []
+
+    for candidate in candidates:
+        value = _to_float(candidate)
+        if value is None:
+            continue
+        if 40.0 <= value <= 300.0:
+            text = ("{:.1f}".format(value)).rstrip("0").rstrip(".")
+            return f"{text}Hz"
+    return ""
 
 
 def network_code(raw: str) -> str:
@@ -203,15 +202,23 @@ def band_label(row: SourceRow) -> str:
 
     raw_band = (row.data.get("band") or "").strip().lower()
     if raw_band in {"2", "2m", "144"}:
-        return "2m"
+        return "2M"
     if raw_band in {"70", "70cm", "430"}:
-        return "70cm"
+        return "70C"
+    if raw_band in {"6", "6m", "50"}:
+        return "6M"
+    if raw_band in {"23", "23cm", "1200"}:
+        return "23C"
 
     freq = row.output_freq or 0.0
+    if 50 <= freq < 55:
+        return "6M"
     if 140 <= freq < 150:
-        return "2m"
+        return "2M"
     if 420 <= freq < 471:
-        return "70cm"
+        return "70C"
+    if 1240 <= freq < 1320:
+        return "23C"
 
     if freq:
         rounded = int(round(freq))
@@ -222,13 +229,14 @@ def band_label(row: SourceRow) -> str:
 def generate_channels(rows: Iterable[SourceRow], include_inactive: bool = False) -> List[Channel]:
     channels: List[Channel] = []
     for row in rows:
-        if not include_inactive and row.status.upper() == "QRT":
+        is_active = row.status.upper() == "QRV"
+        if not include_inactive and not is_active:
             continue
         rx = row.output_freq
         if rx is None:
             continue
         tx = rx + row.tx_shift
-        tone = parse_tone(row.access)
+        tx_tone = parse_ctcss(row.access)
 
         nets = row.networks
         ids = row.network_ids
@@ -236,7 +244,15 @@ def generate_channels(rows: Iterable[SourceRow], include_inactive: bool = False)
             name = build_channel_name(net, row)
             if idx < len(ids) and ids[idx]:
                 name = f"{name} ({ids[idx]})"
-            channels.append(Channel(rx_frequency=rx, tx_frequency=tx, channel_name=name, rx_tone=tone, tx_tone=tone))
+            channels.append(
+                Channel(
+                    rx_frequency=rx,
+                    tx_frequency=tx,
+                    channel_name=name,
+                    rx_tone="",
+                    tx_tone=tx_tone,
+                )
+            )
     channels.sort(key=lambda ch: (ch.channel_name, ch.rx_frequency))
     return channels
 
