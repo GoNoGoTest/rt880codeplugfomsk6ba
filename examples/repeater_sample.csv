@@ -1,0 +1,6 @@
+id;updated;type;band;mode;network;network_id;district;call;city;channel;output;tx_shift;access;status;lat;lng;locator;masl;magl;watt_pep;dir;ant;backup
+1;"";"Repeater";"2";"FM";"";"";"LA";"LA5PR";"Firda / Høyanger";"RV48";"145.6000";"-0.600";"";"QRT";61.2292;6.0416;"JP31AF";"950";"";"";"";"";0
+2;"";"Repeater";"2";"FM";"";"";"LA";"LA6AR";"Sandnessjøen / Brasøy";"RV58";"145.7250";"-0.600";"";"QRV";65.9143;12.1817;"JP65CV";"20";"10";"30";"";"Diamond X-300";0
+3;"2023-04-16";"Repeater";"2";"FM";"";"";"LA";"LA6KR";"Kristiansand / Hestheia";"RV60";"145.7500";"-0.600";"123.0";"QRV";58.2189;7.8522;"JO38WF";"300";"98.5";"";"Omni";"";2
+16;"2023-09-12";"Repeater";"70";"FM";"Echolink / SvxReflector";"27796 / 5014";"2";"SK2RIU";"Vännäs / Granlundsberget";"RU378";"434.7250";"-2.000";"1750 / 107.2";"QRV";63.9;19.81;"JP93VU";"350";"100";"25";"Omni";"Aerial OY AV1914-H (4 stack 10dBi)";1
+24;"";"Repeater";"70";"FM";"";"";"3";"SK3MF/R";"Nordingrå / Rävsön";"RU388";"434.8500";"-2.000";"1750";"QRV";62.9375;18.4583;"JP92FW";"";"";"";"";"";0
