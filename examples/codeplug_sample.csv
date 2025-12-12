@@ -1,0 +1,6 @@
+Channel Number,Rx Frequency,Tx Frequency,Channel Type,Power,Scan Add,Channel Name,TG List,Contact,DMR Enrcypt,DMR Mode,Timeslot,Colour Code,DMR Politely TX,DMR TOT,Promiscuos Mode,Channel ID,ID Select,RX TONE,TX TONE,Bandwidth (kHz),Busy Lock,ANA TOT,Tail Tone,Scrambler,DCS Type,ANA Mute Code 1,ANA Mute Code 2,ANA Mute Code 3,AM_FM RX,RX_TX Limit
+1,145.75000,145.15000,Analogue,High,Add,R2M-FM-LA Kristiansand LA6KR,,,,,,,,,,,,,123Hz,Wide,Allow TX,Off,55Hz,Off,Normal,000000000000000000000000,,,FM,RX
+2,145.72500,145.12500,Analogue,High,Add,R2M-FM-LA Sandnessjøen LA6AR,,,,,,,,,,,,,,Wide,Allow TX,Off,55Hz,Off,Normal,000000000000000000000000,,,FM,RX
+3,434.72500,432.72500,Analogue,High,Add,R70C-EL-2 Vännäs SK2RIU,,,,,,,,,,,,,107.2Hz,Wide,Allow TX,Off,55Hz,Off,Normal,000000000000000000000000,,,FM,RX
+4,434.85000,432.85000,Analogue,High,Add,R70C-FM-3 Nordingrå SK3MF,,,,,,,,,,,,,,Wide,Allow TX,Off,55Hz,Off,Normal,000000000000000000000000,,,FM,RX
+5,434.72500,432.72500,Analogue,High,Add,R70C-SV-2 Vännäs SK2RIU,,,,,,,,,,,,,107.2Hz,Wide,Allow TX,Off,55Hz,Off,Normal,000000000000000000000000,,,FM,RX
