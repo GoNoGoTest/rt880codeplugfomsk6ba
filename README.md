@@ -41,3 +41,15 @@ python convert.py examples/repeater_sample.csv examples/codeplug_sample.csv
 * Analogue-only output with the defaults above.
 * Network IDs are appended to the channel name (e.g. `R70C-EL-2 ... (27796)`).
 * DTMF and other non-CTCSS signalling are ignored in v1.
+
+## v1 readiness checklist
+
+The script currently covers everything needed for the initial analogue workflow:
+
+* QRV filtering with an opt-out flag.
+* Explicit band labels (2M/70C/6M/23C) derived from the `band` column or output frequency.
+* Multi-network splitting with matching `network_id` association and naming.
+* CTCSS handling that populates TX tone only when a numeric 40–300 Hz tone is present; RX tone is always blank.
+* Dot-decimal, comma-separated output with sequential channel numbering and the RT-880 column layout.
+
+Planned for a later version: DMR/TG mapping and richer handling of DTMF or other signalling beyond CTCSS.
