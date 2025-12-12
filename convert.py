@@ -260,11 +260,8 @@ def generate_channels(rows: Iterable[SourceRow], include_inactive: bool = False)
         tx_tone = parse_ctcss(row.access)
 
         nets = row.networks
-        ids = row.network_ids
         for idx, net in enumerate(nets):
             name = build_channel_name(net, row)
-            if idx < len(ids) and ids[idx]:
-                name = f"{name} ({ids[idx]})"
             channels.append(
                 Channel(
                     rx_frequency=rx,

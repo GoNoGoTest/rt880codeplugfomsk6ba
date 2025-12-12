@@ -22,7 +22,7 @@ python convert.py path/to/repeater_list.csv path/to/output_codeplug.csv
   * Call is truncated to the bare callsign before whitespace, parentheses, or slash suffixes (e.g. `SK6QW/R (353113)` → `SK6QW`).
   * Band is derived from the `band` column or the output frequency with explicit labels: 2M, 70C, 6M, 23C. Other ranges fall back to a rounded MHz label.
   * Network codes: BrandMeister→BR, Wires-X→WX, SvxReflector→SV, Echolink→EL, IRLP→IR, empty→FM, otherwise the uppercase value.
-  * Rows with multiple networks are duplicated (one channel per network). If multiple `network_id` entries are present (slash-separated), they are appended to the matching channel name in order.
+  * Rows with multiple networks are duplicated (one channel per network). Network IDs are not included in the name in v1 to avoid long suffixes like `(839597)`.
 * **Access tones**
   * RX tone is always blank.
   * TX tone is the first numeric CTCSS value (40–300 Hz) found in `access` (e.g. `1750 / 107.2` → `107.2Hz`). Tone bursts (e.g. 1750) and DTMF are ignored.
@@ -41,7 +41,7 @@ python convert.py examples/repeater_sample.csv examples/codeplug_sample.csv
 ## Current scope
 
 * Analogue-only output with the defaults above.
-* Network IDs are appended to the channel name (e.g. `R70C-EL-2 ... (27796)`).
+* Network IDs are ignored in the channel name for v1 (they can be reintroduced later if needed for DMR logic).
 * DTMF and other non-CTCSS signalling are ignored in v1.
 
 ## v1 readiness checklist
@@ -50,7 +50,7 @@ The script currently covers everything needed for the initial analogue workflow:
 
 * QRV filtering with an opt-out flag.
 * Explicit band labels (2M/70C/6M/23C) derived from the `band` column or output frequency.
-* Multi-network splitting with matching `network_id` association and naming.
+* Multi-network splitting with one channel per network entry.
 * CTCSS handling that populates TX tone only when a numeric 40–300 Hz tone is present; RX tone is always blank.
 * Dot-decimal, comma-separated output with sequential channel numbering and the RT-880 column layout.
 
