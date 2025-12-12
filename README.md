@@ -18,6 +18,8 @@ python convert.py path/to/repeater_list.csv path/to/output_codeplug.csv
   * `Tx Frequency` = `output + tx_shift` (simplex if no shift).
   * Frequencies are written with 5 decimal places.
 * **Channel name**: `R<band>-<network>-<district> <city> <call>` (e.g. `R2M-BR-6 Nacka SM0ABC`).
+  * City is truncated at the first space (e.g. `Oslo / Heggedal` → `Oslo`).
+  * Call is truncated to the bare callsign before whitespace, parentheses, or slash suffixes (e.g. `SK6QW/R (353113)` → `SK6QW`).
   * Band is derived from the `band` column or the output frequency with explicit labels: 2M, 70C, 6M, 23C. Other ranges fall back to a rounded MHz label.
   * Network codes: BrandMeister→BR, Wires-X→WX, SvxReflector→SV, Echolink→EL, IRLP→IR, empty→FM, otherwise the uppercase value.
   * Rows with multiple networks are duplicated (one channel per network). If multiple `network_id` entries are present (slash-separated), they are appended to the matching channel name in order.

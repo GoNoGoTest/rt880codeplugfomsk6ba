@@ -185,6 +185,25 @@ def network_code(raw: str) -> str:
     return NETWORK_CODES.get(key, "FM" if not key else key.upper())
 
 
+def _short_city(city: str) -> str:
+    city = city.strip()
+    if not city:
+        return ""
+    return city.split()[0]
+
+
+def _base_callsign(call: str) -> str:
+    call = call.strip()
+    if not call:
+        return ""
+    # Drop everything after the first whitespace or parenthesis
+    call = call.split()[0].split("(")[0].strip()
+    # Keep only the part before any slash suffix (e.g. "/R")
+    if "/" in call:
+        call = call.split("/")[0]
+    return call
+
+
 def build_channel_name(net: str, row: SourceRow) -> str:
     code = network_code(net)
     band = band_label(row)
@@ -192,7 +211,9 @@ def build_channel_name(net: str, row: SourceRow) -> str:
     if row.district:
         prefix_parts.append(row.district)
     prefix = "-".join(prefix_parts)
-    suffix_parts = [row.city, row.call]
+    city = _short_city(row.city)
+    call = _base_callsign(row.call)
+    suffix_parts = [city, call]
     suffix = " ".join([p for p in suffix_parts if p]).strip()
     return prefix if not suffix else f"{prefix} {suffix}"
 
