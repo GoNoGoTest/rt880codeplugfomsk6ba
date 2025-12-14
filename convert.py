@@ -166,7 +166,7 @@ def _to_float(value: Optional[str]) -> Optional[float]:
 
 
 def parse_ctcss(access: str) -> str:
-    """Return the first numeric CTCSS tone in Hz, or blank if none is found."""
+    """Return the first numeric CTCSS tone in Hz, or "None" if none is found."""
 
     candidates = _split_multi(access.replace(" ", "")) if access else []
     if not candidates:
@@ -179,7 +179,7 @@ def parse_ctcss(access: str) -> str:
         if 40.0 <= value <= 300.0:
             text = ("{:.1f}".format(value)).rstrip("0").rstrip(".")
             return f"{text}Hz"
-    return ""
+    return "None"
 
 
 def network_code(raw: str) -> str:
@@ -269,7 +269,7 @@ def generate_channels(rows: Iterable[SourceRow], include_inactive: bool = False)
                     rx_frequency=rx,
                     tx_frequency=tx,
                     channel_name=name,
-                    rx_tone="",
+                    rx_tone="None",
                     tx_tone=tx_tone,
                 )
             )
